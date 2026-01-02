@@ -1,0 +1,22 @@
+{
+	"name": "devcontainer",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"openai.chatgpt"
+			]
+		}
+	},
+	"remoteUser": "vscode",
+	"containerEnv": {
+		"GIT_AUTHOR_NAME": "${localEnv:<REPO_NAME>_DEV_GIT_NAME}",
+		"GIT_AUTHOR_EMAIL": "${localEnv:<REPO_NAME>_DEV_GIT_EMAIL}",
+		"GIT_COMMITTER_NAME": "${localEnv:<REPO_NAME>_DEV_GIT_NAME}",
+		"GIT_COMMITTER_EMAIL": "${localEnv:<REPO_NAME>_DEV_GIT_EMAIL}"
+	},
+	"runArgs": ["--name", "<your-container-name>-dev"],
+	"postCreateCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}"
+}

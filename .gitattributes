@@ -1,0 +1,4 @@
+### Line endings ###
+* text=auto eol=lf
+.gitattributes text eol=lf
+.gitignore     text eol=lf
