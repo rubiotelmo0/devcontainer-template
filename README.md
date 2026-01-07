@@ -4,13 +4,13 @@ This repo contains a `.devcontainer` configuration and docs template, ready to b
 The following [`.devcontainer`](#devcontainer) section can be directly copied to your repo's README.md. 
 
 > [!NOTE]
-> Remember to modify the [devcontainer.json](./.devcontainer/devcontainer.json), git-related env variables, and container name as needed.
+> Remember to modify the [devcontainer.json](./.devcontainer/devcontainer.json), git-related environment variables, and container name as needed.
 
 ## [`.devcontainer`](./.devcontainer)
 This repo ships with a VS Code devcontainer environment to make development simpler.
 
 ### Configuring git
-Follow the steps in the sections below to configure Git inside the container. You only need to perform these steps when you create (or rebuild) the devcontainer, not every time you start it. 
+Follow the steps in the sections below to configure Git inside the container.
 
 > [!WARNING]
 > As stated in [Launching VS Code with Git config](#launching-vs-code-with-git-config), start VS Code (`code .`) from the same shell where you ran the configuration commands!
@@ -30,8 +30,14 @@ export <REPO_NAME>_DEV_GIT_NAME="Your Name"
 export <REPO_NAME>_DEV_GIT_EMAIL="your@email.com"
 ```
 
+> [!NOTE]
+> You only need to perform these steps when you create (or rebuild) the devcontainer, not every time you start it.
+
 #### Setting up git SSH keys
-If you use Git with SSH keys, follow these steps (full info at [link](https://code.visualstudio.com/remote/advancedcontainers/sharing-git-credentials)):
+If you use Git with SSH keys, follow these steps (full info at [link](https://code.visualstudio.com/remote/advancedcontainers/sharing-git-credentials)).
+
+> [!NOTE]
+> You need to perform the actions below (SSH agent initialization and key loading) every time you **start** the container.
 
 **1. Automatically initialize the SSH Agent**
 
@@ -72,7 +78,6 @@ code .
 ### Starting devcontainer
 Once the [git configuration steps](#configuring-git) are completed, you can create the devcontainer. Follow this simple process:
 
-1. Hit `Ctrl + Shift + P` to open VS Code's command palette
-2. Type `Dev Containers: Reopen in Container` and hit enter
+1. Press `Ctrl + Shift + P` to open VS Code's command palette
+2. Type `Dev Containers: Reopen in Container` and hit Enter
 3. That's it! The environment is now ready to use :)
-
