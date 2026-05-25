@@ -3,6 +3,9 @@
 	"build": {
 		"dockerfile": "Dockerfile"
 	},
+	"mounts": [
+		"source=${localWorkspaceFolderBasename}-codex,target=/home/vscode/.codex,type=volume"
+	],
 	"customizations": {
 		"vscode": {
 			"extensions": [
@@ -18,5 +21,5 @@
 		"GIT_COMMITTER_EMAIL": "${localEnv:<REPO_NAME>_DEV_GIT_EMAIL}"
 	},
 	"runArgs": ["--name", "<your-container-name>-dev"],
-	"postCreateCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}"
+	"postCreateCommand": "sudo chown -R vscode:vscode /home/vscode/.codex && git config --global --add safe.directory ${containerWorkspaceFolder}"
 }

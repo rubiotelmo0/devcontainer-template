@@ -9,6 +9,9 @@ The following [`.devcontainer`](#devcontainer) section can be directly copied to
 ## [`.devcontainer`](./.devcontainer)
 This repo ships with a VS Code devcontainer environment to make development simpler.
 
+### Change devcontainer name
+In [`.devcontainer/devcontainer.json`](./.devcontainer/devcontainer.json), replace `<your-container-name>-dev` in the `--name` run argument with a unique name for this repo.
+
 ### Configuring git
 Follow the steps in the sections below to configure Git inside the container.
 
@@ -74,6 +77,9 @@ cd /path/to/repo
 
 code .
 ```
+
+### Persisted codex data
+Codex data under `~/.codex` is persisted in a Docker volume mounted at `/home/vscode/.codex`. The volume name is `${localWorkspaceFolderBasename}-codex`, so for a repo folder named `my-repo` it becomes `my-repo-codex`.
 
 ### Starting devcontainer
 Once the [git configuration steps](#configuring-git) are completed, you can create the devcontainer. Follow this simple process:
