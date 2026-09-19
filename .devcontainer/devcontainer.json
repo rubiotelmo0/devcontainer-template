@@ -4,7 +4,9 @@
 		"dockerfile": "Dockerfile"
 	},
 	"mounts": [
-		"source=${localWorkspaceFolderBasename}-codex,target=/home/vscode/.codex,type=volume"
+		"source=${localWorkspaceFolderBasename}-codex,target=/home/vscode/.codex,type=volume",
+		"source=${localWorkspaceFolderBasename}-agent-skills,target=/home/vscode/.agents,type=volume",
+		"source=${localWorkspaceFolderBasename}-treehouse,target=/home/vscode/.treehouse,type=volume"
 	],
 	"customizations": {
 		"vscode": {
@@ -18,8 +20,9 @@
 		"GIT_AUTHOR_NAME": "${localEnv:<REPO_NAME>_DEV_GIT_NAME}",
 		"GIT_AUTHOR_EMAIL": "${localEnv:<REPO_NAME>_DEV_GIT_EMAIL}",
 		"GIT_COMMITTER_NAME": "${localEnv:<REPO_NAME>_DEV_GIT_NAME}",
-		"GIT_COMMITTER_EMAIL": "${localEnv:<REPO_NAME>_DEV_GIT_EMAIL}"
+		"GIT_COMMITTER_EMAIL": "${localEnv:<REPO_NAME>_DEV_GIT_EMAIL}",
+		"GH_TOKEN": "${localEnv:<REPO_NAME>_GH_TOKEN}"
 	},
 	"runArgs": ["--name", "<your-container-name>-dev"],
-	"postCreateCommand": "sudo chown -R vscode:vscode /home/vscode/.codex && git config --global --add safe.directory ${containerWorkspaceFolder}"
+	"postCreateCommand": "sudo chown -R vscode:vscode /home/vscode/.codex /home/vscode/.agents /home/vscode/.treehouse && git config --global --add safe.directory ${containerWorkspaceFolder} && DISABLE_TELEMETRY=1 npx --yes skills@1.7.0 add mattpocock/skills --global --agent codex --yes"
 }
