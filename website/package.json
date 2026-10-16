@@ -1,0 +1,19 @@
+{
+  "name": "documentation",
+  "private": true,
+  "scripts": {
+    "start": "docusaurus start --host 0.0.0.0 --port 3000 --no-open --poll 1000",
+    "build": "docusaurus build",
+    "serve": "docusaurus serve --host 0.0.0.0 --port 3000 --no-open"
+  },
+  "dependencies": {
+    "@docusaurus/core": "3.10.2",
+    "@docusaurus/preset-classic": "3.10.2",
+    "@mdx-js/react": "^3.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "engines": {
+    "node": ">=20.0"
+  }
+}

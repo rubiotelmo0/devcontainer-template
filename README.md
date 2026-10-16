@@ -1,7 +1,28 @@
 # `.devcontainer` template
 This repo contains a `.devcontainer` configuration and docs template, ready to be modified to your specific needs. Additionally, a Java + Gradle Dockerfile is provided as a reference.
 
-The following [`.devcontainer`](#devcontainer) section can be directly copied to your repo's README.md. 
+## Documentation
+
+The template includes a minimal [Docusaurus](https://docusaurus.io/) docs site. Edit [website/docs/intro.md](./website/docs/intro.md) and add Markdown or MDX pages under `website/docs/`; the sidebar is generated automatically. Site configuration, Docusaurus dependencies, and the `src/` directory for future custom components live in `website/`.
+
+The devcontainer runs `npm --prefix website ci` to install the docs site's dependencies when it is created and forwards port 3000 as **Documentation**. Start the site on demand from the repository root:
+
+```bash
+npm --prefix website start
+```
+
+Open <http://localhost:3000>. Changes to documentation reload automatically; polling supports Docker bind mounts on Windows. Stop the server with `Ctrl+C`.
+
+To build the static site and preview it locally:
+
+```bash
+npm --prefix website run build
+npm --prefix website run serve
+```
+
+Build output is written to `website/build/`. Outside the devcontainer, use Node.js 20 or later and first run `npm --prefix website ci` from the repository root. For an existing devcontainer, rebuild it to apply dependency installation and port forwarding, or run the install command and forward port 3000 manually from VS Code's Ports view.
+
+The following [`.devcontainer`](#devcontainer) section can be directly copied to your repo's README.md.
 
 ## [`.devcontainer`](./.devcontainer)
 This repo ships with a VS Code devcontainer environment to make development simpler.
