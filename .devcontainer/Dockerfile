@@ -18,25 +18,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     unzip \
     && rm -rf /var/lib/apt/lists/*
 
-# Node.js (required by the transient skills.sh installer)
-ARG NODE_VERSION=22.23.2
-ARG NODE_SHA256=b294a556e639d64338823920e5866c21c02741742d2e1529ee1a225c1ec9252a
-ARG NODE_URL="https://nodejs.org/download/release/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz"
-
-RUN curl -fsSL "${NODE_URL}" -o /tmp/node.tar.gz \
-    && echo "${NODE_SHA256}  /tmp/node.tar.gz" | sha256sum -c - \
-    && mkdir -p /opt/node \
-    && tar -xzf /tmp/node.tar.gz -C /opt/node --strip-components=1 \
-    && ln -s /opt/node/bin/node /usr/local/bin/node \
-    && ln -s /opt/node/bin/npm /usr/local/bin/npm \
-    && ln -s /opt/node/bin/npx /usr/local/bin/npx \
-    && rm /tmp/node.tar.gz
-
-ENV PATH="/opt/node/bin:${PATH}"
-
 # Treehouse CLI
-ARG TREEHOUSE_VERSION=2.3.0
-ARG TREEHOUSE_SHA256=94fd2b2c20c35aac1ddc2941317890ad82c9916f5ccecbac4a50cda783eed10f
+ARG TREEHOUSE_VERSION=3.1.4
+ARG TREEHOUSE_SHA256=a169277ffdc5f48b51a4b53ce6c2e46fe3c222a5017c67f72bf9260a9b382ae2
 ARG TREEHOUSE_URL="https://github.com/kunchenguid/treehouse/releases/download/v${TREEHOUSE_VERSION}/treehouse-v${TREEHOUSE_VERSION}-linux-amd64.tar.gz"
 
 RUN curl -fsSL "${TREEHOUSE_URL}" -o /tmp/treehouse.tar.gz \

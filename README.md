@@ -78,7 +78,7 @@ Codex data under `~/.codex` is persisted in a Docker volume named `${localWorksp
 The canonical agent-skill store (`~/.agents`) and Treehouse worktree pool (`~/.treehouse`) use equivalent `-agent-skills` and `-treehouse` volumes. All three therefore survive a devcontainer rebuild.
 
 #### Matt Pocock's engineering skills
-The devcontainer post-create command uses the transient [`skills`](https://skills.sh/) CLI to install [`mattpocock/skills`](https://github.com/mattpocock/skills) globally for Codex and disables installer telemetry. The image includes the minimum compatible Node.js runtime needed to run the installer; the `skills` CLI itself is not installed globally.
+The devcontainer post-create command uses the transient [`skills`](https://skills.sh/) CLI, pinned to `1.7.2`, to install globally for Codex and disables installer telemetry. Node.js is provided by the Dev Container Feature; the `skills` CLI itself is not installed globally. Update the version or commit pins and rebuild the container to refresh the installed skills.
 
 After creating the container, run this once per repository from Codex:
 
