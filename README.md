@@ -3,14 +3,13 @@ This repo contains a `.devcontainer` configuration and docs template, ready to b
 
 The following [`.devcontainer`](#devcontainer) section can be directly copied to your repo's README.md. 
 
-> [!NOTE]
-> Remember to modify the [devcontainer.json](./.devcontainer/devcontainer.json), host environment variables, and container name as needed.
-
 ## [`.devcontainer`](./.devcontainer)
 This repo ships with a VS Code devcontainer environment to make development simpler.
 
-### Change devcontainer name
-In [`.devcontainer/devcontainer.json`](./.devcontainer/devcontainer.json), replace `<your-container-name>-dev` in the `--name` run argument with a unique name for this repo.
+> [!IMPORTANT]
+> **Make sure the directory name matches the repository name!**
+>
+> The provided `devcontainer.json` automatically uses the repository's root directory name to generate environment variable names. Make sure your local clone's directory name matches the remote repository's name.
 
 ### Configuring git
 Follow the steps in the sections below to configure Git inside the container.
@@ -19,7 +18,9 @@ Follow the steps in the sections below to configure Git inside the container.
 > As stated in [Launching VS Code after configuration](#launching-vs-code-after-configuration), start VS Code (`code .`) from the same shell where you ran the configuration commands!
 
 #### Setting up git `user.name` and `user.email`
-Set the following environment variables; they are passed to the devcontainer automatically.
+Set the following environment variables; they are passed to the devcontainer automatically. `<REPO_NAME>` is the repository root folder name in uppercase, with each character other than `A-Z`, `0-9`, or `_` replaced by `_`. For example, `my-repo` uses `MY_REPO_DEV_GIT_NAME`, `MY_REPO_DEV_GIT_EMAIL`, and `MY_REPO_GH_TOKEN`. No edits to `devcontainer.json` are needed; the container is automatically named `<folder-name>-dev`.
+
+The inline `initializeCommand` in `devcontainer.json` uses Git's shell (including Git for Windows) to write these values to a generated, Git-ignored `.devcontainer/.env` file before Docker creates the container.
 
 **Windows**
 ```powershell

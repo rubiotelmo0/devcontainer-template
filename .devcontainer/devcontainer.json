@@ -1,5 +1,5 @@
 {
-	"name": "devcontainer",
+	"name": "${localWorkspaceFolderBasename}",
 	"build": {
 		"dockerfile": "Dockerfile"
 	},
@@ -16,13 +16,14 @@
 		}
 	},
 	"remoteUser": "vscode",
-	"containerEnv": {
-		"GIT_AUTHOR_NAME": "${localEnv:<REPO_NAME>_DEV_GIT_NAME}",
-		"GIT_AUTHOR_EMAIL": "${localEnv:<REPO_NAME>_DEV_GIT_EMAIL}",
-		"GIT_COMMITTER_NAME": "${localEnv:<REPO_NAME>_DEV_GIT_NAME}",
-		"GIT_COMMITTER_EMAIL": "${localEnv:<REPO_NAME>_DEV_GIT_EMAIL}",
-		"GH_TOKEN": "${localEnv:<REPO_NAME>_GH_TOKEN}"
-	},
-	"runArgs": ["--name", "<your-container-name>-dev"],
+	"initializeCommand": [
+		"git", "-C", "${localWorkspaceFolder}",
+		"-c", "alias.devcontainer-env=!f() { set -eu; prefix=$(basename \"$PWD\" | LC_ALL=C tr '[:lower:]' '[:upper:]' | LC_ALL=C tr -c 'A-Z0-9_\\n' '_'); umask 077; temp_file=$(mktemp .devcontainer/.env.XXXXXX); trap 'rm -f \"$temp_file\"' EXIT HUP INT TERM; write_env() { value=$(printenv \"${prefix}_$2\" || true); if [ \"$value\" != \"$(printf '%s' \"$value\" | tr -d '\\r\\n')\" ]; then printf 'Environment variable %s_%s must be a single line.\\n' \"$prefix\" \"$2\" >&2; exit 1; fi; printf '%s=%s\\n' \"$1\" \"$value\" >> \"$temp_file\"; }; write_env GIT_AUTHOR_NAME DEV_GIT_NAME; write_env GIT_AUTHOR_EMAIL DEV_GIT_EMAIL; write_env GIT_COMMITTER_NAME DEV_GIT_NAME; write_env GIT_COMMITTER_EMAIL DEV_GIT_EMAIL; write_env GH_TOKEN GH_TOKEN; mv -f \"$temp_file\" .devcontainer/.env; }; f",
+		"devcontainer-env"
+	],
+	"runArgs": [
+		"--name", "${localWorkspaceFolderBasename}-dev",
+		"--env-file", "${localWorkspaceFolder}/.devcontainer/.env"
+	],
 	"postCreateCommand": "sudo chown -R vscode:vscode /home/vscode/.codex /home/vscode/.agents /home/vscode/.treehouse && git config --global --add safe.directory ${containerWorkspaceFolder} && DISABLE_TELEMETRY=1 npx --yes skills@1.7.0 add mattpocock/skills --global --agent codex --yes"
 }

@@ -1,0 +1,3 @@
+# Generated host credentials for Docker's --env-file.
+.env
+.env.*
