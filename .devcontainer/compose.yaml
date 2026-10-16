@@ -1,0 +1,11 @@
+services:
+  workspace:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: sleep infinity
+    env_file:
+      - path: .env.workspace
+        format: raw
+    volumes:
+      - ..:/workspaces/workspace:cached

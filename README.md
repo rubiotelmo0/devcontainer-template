@@ -6,6 +6,14 @@ The following [`.devcontainer`](#devcontainer) section can be directly copied to
 ## [`.devcontainer`](./.devcontainer)
 This repo ships with a VS Code devcontainer environment to make development simpler.
 
+### Docker Compose stack
+
+The devcontainer uses [`.devcontainer/compose.yaml`](./.devcontainer/compose.yaml) with a single `workspace` service built from the existing Dockerfile. Use Docker Compose 2.30.0 or later; the credentials file uses [`env_file.format: raw`](https://docs.docker.com/reference/compose-file/services/#format) to preserve literal values, including quotes and `$` characters.
+
+The repository is mounted at `/workspaces/workspace`. Dev Container Features, VS Code settings, lifecycle commands, and the existing named volumes remain configured in `devcontainer.json`. Compose assigns the workspace container's name automatically.
+
+To expand the stack, add services alongside `workspace` in `compose.yaml`. Dev Containers starts all services by default and stops the stack when you close the VS Code window. Services can communicate using their Compose service names, such as `db` or `redis`, as hostnames.
+
 > [!IMPORTANT]
 > **Make sure the directory name matches the repository name!**
 >
@@ -18,9 +26,9 @@ Follow the steps in the sections below to configure Git inside the container.
 > As stated in [Launching VS Code after configuration](#launching-vs-code-after-configuration), start VS Code (`code .`) from the same shell where you ran the configuration commands!
 
 #### Setting up git `user.name` and `user.email`
-Set the following environment variables; they are passed to the devcontainer automatically. `<REPO_NAME>` is the repository root folder name in uppercase, with each character other than `A-Z`, `0-9`, or `_` replaced by `_`. For example, `my-repo` uses `MY_REPO_DEV_GIT_NAME`, `MY_REPO_DEV_GIT_EMAIL`, and `MY_REPO_GH_TOKEN`. No edits to `devcontainer.json` are needed; the container is automatically named `<folder-name>-dev`.
+Set the following environment variables; they are passed to the devcontainer automatically. `<REPO_NAME>` is the repository root folder name in uppercase, with each character other than `A-Z`, `0-9`, or `_` replaced by `_`. For example, `my-repo` uses `MY_REPO_DEV_GIT_NAME`, `MY_REPO_DEV_GIT_EMAIL`, and `MY_REPO_GH_TOKEN`. No edits to `devcontainer.json` are needed.
 
-The inline `initializeCommand` in `devcontainer.json` uses Git's shell (including Git for Windows) to write these values to a generated, Git-ignored `.devcontainer/.env` file before Docker creates the container.
+The inline `initializeCommand` in `devcontainer.json` uses Git's shell (including Git for Windows) to write these values to a generated, Git-ignored `.devcontainer/.env.workspace` file before Compose creates the container. The file is also excluded from the Docker build context.
 
 **Windows**
 ```powershell

@@ -1,3 +1,3 @@
-# Generated host credentials for Docker's --env-file.
+# Generated host credentials for the Compose workspace service.
 .env
 .env.*
