@@ -15,6 +15,7 @@ Paths below are relative to the repository root.
 | `.devcontainer/Dockerfile` | Debian base, OS packages, non-root `vscode` user, Treehouse, and Java + Gradle reference toolchain. |
 | `.devcontainer/devcontainer.json` | Dev Container Features, repository bind mount, workspace directory, persistent volumes, VS Code extension, forwarded port, and lifecycle commands. |
 | `.devcontainer/devcontainer-lock.json` | Resolved feature versions and integrity digests. |
+| `.devcontainer/skills/setup-workspace/` | Post-creation setup skill and subagent verification instructions, installed for Codex during container creation. |
 | `website/docusaurus.config.js` | Documentation branding, routes, navigation, and theme. |
 | `website/package.json` and `website/package-lock.json` | Documentation scripts, dependency declarations, and resolved package versions. |
 
@@ -59,6 +60,6 @@ These steps describe how the development environment is initialized, built, and 
 
 1. **Before creation:** the inline `initializeCommand` derives the repository prefix and writes Git identity and the GitHub token to `.devcontainer/.env.workspace` on the host. The generated file is Git-ignored and excluded from the Docker build context. Mount paths use native Dev Container variable substitution without an initialization script or generated path settings.
 2. **During build:** the Dockerfile installs its toolchain; Dev Container Features add Node.js and Docker-in-Docker.
-3. **After creation:** `postCreateCommand` fixes ownership of the persistent directories, adds the workspace as a Git safe directory, installs the pinned Matt Pocock skills globally for Codex, and runs `npm --prefix website ci`.
+3. **After creation:** `postCreateCommand` fixes ownership of the persistent directories, adds the workspace as a Git safe directory, installs the pinned Matt Pocock skills and the repository's `setup-workspace` skill globally for Codex, and runs `npm --prefix website ci`. The local setup skill is refreshed from the repository on rebuild; start its guided workflow from an agent session as described in [Post-stack creation configuration](getting-started/post-creation.md).
 
 Port **3000** is forwarded as **Documentation**. The docs server is started on demand.

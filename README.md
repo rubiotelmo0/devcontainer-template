@@ -8,6 +8,9 @@
 
 An opinionated, customizable VS Code devcontainer stack template for you and your coding agents. It provides a Docker Compose workspace, persistent agent data, engineering skills, reusable Treehouse worktrees, and Docker in Docker.
 
+> [!NOTE]
+> Codex is currently the only natively supported coding agent.
+
 ## Getting Started
 
 - Follow the [getting started guide](https://rubiotelmo0.github.io/devcontainer-template/getting-started/pre-creation/) in the project docs.
