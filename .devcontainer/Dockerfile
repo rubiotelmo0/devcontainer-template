@@ -71,4 +71,4 @@ ENV GRADLE_HOME=/opt/gradle/gradle-${GRADLE_VERSION}
 ENV PATH="${GRADLE_HOME}/bin:${PATH}"
 
 USER $USERNAME
-WORKDIR /workspaces
+WORKDIR /workspace

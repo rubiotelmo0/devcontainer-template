@@ -1,186 +1,35 @@
-# `.devcontainer` template
-This repo contains a `.devcontainer` configuration and docs template, ready to be modified to your specific needs. Additionally, a Java + Gradle Dockerfile is provided as a reference.
+# devcontainer-template
+
+[![License](https://img.shields.io/github/license/rubiotelmo0/devcontainer-template)](./LICENSE)
+
+<p align="center">
+  <img src="./website/static/img/devcontainer-token.png" alt="Devcontainer Template logo" width="340" />
+</p>
+
+An opinionated, customizable VS Code devcontainer stack template for you and your coding agents. It provides a Docker Compose workspace, persistent agent data, engineering skills, reusable Treehouse worktrees, and Docker in Docker.
+
+## Getting Started
+
+- Follow the [getting started guide](https://rubiotelmo0.github.io/devcontainer-template/getting-started/pre-creation/) in the project docs.
+- As a local backup, use the [pre-stack configuration Markdown](./website/docs/getting-started/pre-creation.md) and then the [post-stack configuration Markdown](./website/docs/getting-started/post-creation.md).
 
 ## Documentation
 
-The template includes a minimal [Docusaurus](https://docusaurus.io/) docs site. Edit [website/docs/intro.md](./website/docs/intro.md) and add Markdown or MDX pages under `website/docs/`; the sidebar is generated automatically. Site configuration, Docusaurus dependencies, and the `src/` directory for future custom components live in `website/`.
+- Read the **[project docs](https://rubiotelmo0.github.io/devcontainer-template/)**.
+- Documentation sources live in [`website/docs/`](./website/docs/).
 
-The devcontainer runs `npm --prefix website ci` to install the docs site's dependencies when it is created and forwards port 3000 as **Documentation**. Start the site on demand from the repository root:
+## Versions
 
-```bash
-npm --prefix website start
-```
+See [CHANGELOG.md](./CHANGELOG.md) for changes and the [roadmap](./website/docs/roadmap.md) for future plans.
 
-Open <http://localhost:3000>. Changes to documentation reload automatically; polling supports Docker bind mounts on Windows. Stop the server with `Ctrl+C`.
+## Support
 
-To build the static site and preview it locally:
+Contact the authors directly for help: [Telmo Rubio on LinkedIn](https://www.linkedin.com/in/rubiotelmo0). See the [support page](./website/docs/support.md).
 
-```bash
-npm --prefix website run build
-npm --prefix website run serve
-```
+## Authors
 
-Build output is written to `website/build/`. Outside the devcontainer, use Node.js 20 or later and first run `npm --prefix website ci` from the repository root. For an existing devcontainer, rebuild it to apply dependency installation and port forwarding, or run the install command and forward port 3000 manually from VS Code's Ports view.
+**Telmo Rubio** — [LinkedIn](https://www.linkedin.com/in/rubiotelmo0)
 
-The following [`.devcontainer`](#devcontainer) section can be directly copied to your repo's README.md.
+## License
 
-## [`.devcontainer`](./.devcontainer)
-This repo ships with a VS Code devcontainer environment to make development simpler.
-
-### Docker Compose stack
-
-The devcontainer uses [`.devcontainer/compose.yaml`](./.devcontainer/compose.yaml) with a single `workspace` service built from the existing Dockerfile. Use Docker Compose 2.30.0 or later; the credentials file uses [`env_file.format: raw`](https://docs.docker.com/reference/compose-file/services/#format) to preserve literal values, including quotes and `$` characters.
-
-The repository is mounted at `/workspaces/workspace`. Dev Container Features, VS Code settings, lifecycle commands, and the existing named volumes remain configured in `devcontainer.json`. Compose assigns the workspace container's name automatically.
-
-To expand the stack, add services alongside `workspace` in `compose.yaml`. Dev Containers starts all services by default and stops the stack when you close the VS Code window. Services can communicate using their Compose service names, such as `db` or `redis`, as hostnames.
-
-> [!IMPORTANT]
-> **Make sure the directory name matches the repository name!**
->
-> The provided `devcontainer.json` automatically uses the repository's root directory name to generate environment variable names. Make sure your local clone's directory name matches the remote repository's name.
-
-### Configuring git
-Follow the steps in the sections below to configure Git inside the container.
-
-> [!WARNING]
-> As stated in [Launching VS Code after configuration](#launching-vs-code-after-configuration), start VS Code (`code .`) from the same shell where you ran the configuration commands!
-
-#### Setting up git `user.name` and `user.email`
-Set the following environment variables; they are passed to the devcontainer automatically. `<REPO_NAME>` is the repository root folder name in uppercase, with each character other than `A-Z`, `0-9`, or `_` replaced by `_`. For example, `my-repo` uses `MY_REPO_DEV_GIT_NAME`, `MY_REPO_DEV_GIT_EMAIL`, and `MY_REPO_GH_TOKEN`. No edits to `devcontainer.json` are needed.
-
-The inline `initializeCommand` in `devcontainer.json` uses Git's shell (including Git for Windows) to write these values to a generated, Git-ignored `.devcontainer/.env.workspace` file before Compose creates the container. The file is also excluded from the Docker build context.
-
-**Windows**
-```powershell
-$env:<REPO_NAME>_DEV_GIT_NAME = "Your Name"
-$env:<REPO_NAME>_DEV_GIT_EMAIL = "your@email.com"
-```
-
-**Linux**
-```bash
-export <REPO_NAME>_DEV_GIT_NAME="Your Name"
-export <REPO_NAME>_DEV_GIT_EMAIL="your@email.com"
-```
-
-> [!NOTE]
-> You only need to perform these steps when you create (or rebuild) the devcontainer, not every time you start it.
-
-#### Setting up git SSH keys
-If you use Git with SSH keys, follow these steps (full info at [link](https://code.visualstudio.com/remote/advancedcontainers/sharing-git-credentials)).
-
-> [!NOTE]
-> You need to perform the actions below (SSH agent initialization and key loading) every time you **start** the container.
-
-**1. Automatically initialize the SSH Agent**
-
-**Windows**: Start a local Administrator PowerShell session and run the following commands:
-```powershell
-# Make sure you're running as an Administrator
-Set-Service ssh-agent -StartupType Automatic
-Start-Service ssh-agent
-Get-Service ssh-agent
-```
-
-**Linux**: First, start the SSH Agent in the background by running the following in a terminal:
-
-```bash
-eval "$(ssh-agent -s)"
-```
-
-**2. Add your keys to the SSH Agent**
-
-Both on Windows and Linux:
-```bash
-# Import default keys (~/.ssh/id_rsa, .ssh/id_dsa, ~/.ssh/id_ecdsa, ~/.ssh/id_ed25519, and ~/.ssh/identity)
-ssh-add
-
-# Import specific keys
-ssh-add <path/to/your/key>
-```
-
-### Coding agent utils
-
-#### Persisted Codex and agent data
-Codex data under `~/.codex` is persisted in a Docker volume named `${localWorkspaceFolderBasename}-codex`. For a repo folder named `my-repo`, for example, the volume is `my-repo-codex`.
-
-The canonical agent-skill store (`~/.agents`) and Treehouse worktree pool (`~/.treehouse`) use equivalent `-agent-skills` and `-treehouse` volumes. All three therefore survive a devcontainer rebuild.
-
-#### Matt Pocock's engineering skills
-The devcontainer post-create command uses the transient [`skills`](https://skills.sh/) CLI, pinned to `1.7.2`, to install globally for Codex and disables installer telemetry. Node.js is provided by the Dev Container Feature; the `skills` CLI itself is not installed globally. Update the version or commit pins and rebuild the container to refresh the installed skills.
-
-After creating the container, run this once per repository from Codex:
-
-```text
-/setup-matt-pocock-skills
-```
-
-Choose GitHub as the issue tracker. The setup records the repository-specific issue tracker, triage labels, and documentation layout under `docs/agents/`.
-
-#### GitHub CLI and headless authentication
-The GitHub CLI (`gh`) is installed from Debian's package repository. For a headless devcontainer, authentication is provided through the [`GH_TOKEN` environment variable](https://cli.github.com/manual/gh_help_environment), so there is no interactive `gh auth login` step and no token is baked into the image.
-
-Create a fine-grained personal access token for the required repositories. For the broader development workflow, grant these repository permissions:
-
-- **Metadata: read**
-- **Contents: read and write** for HTTPS Git pushes, tags, releases, and merging PRs
-- **Issues: read and write**
-- **Pull requests: read and write**
-- **Workflows: read and write** only if you need to push changes to `.github/workflows/`
-
-Then set it in the host shell before launching VS Code:
-
-**Windows**
-```powershell
-$env:<REPO_NAME>_GH_TOKEN = "github_pat_..."
-code .
-```
-
-**Linux**
-```bash
-export <REPO_NAME>_GH_TOKEN="github_pat_..."
-code .
-```
-
-The devcontainer forwards the value from the host. Do not put the token directly in `devcontainer.json` or commit it to the repository. Verify authentication inside the container with:
-
-```bash
-gh auth status
-```
-
-If you prefer a classic personal access token, use the scopes GitHub documents for `gh auth login --with-token`: `repo`, `read:org`, and `gist`.
-
-With this template's SSH setup, normal pushes and tags use Git and the forwarded SSH agent, not `GH_TOKEN`:
-
-```bash
-git push
-git tag v1.0.0
-git push origin v1.0.0
-```
-
-The token authenticates GitHub API operations such as `gh issue create`, `gh pr create`, and `gh pr merge`. If a repository instead uses an HTTPS remote, run `gh auth setup-git` inside the container to configure `gh` as Git's credential helper; in that case the token also authenticates Git pushes and tag pushes.
-
-#### Treehouse CLI
-The image installs a pinned, checksum-verified [Treehouse](https://github.com/kunchenguid/treehouse) binary. From a Git repository, run:
-
-```bash
-treehouse
-```
-
-Treehouse acquires an isolated reusable worktree and opens a subshell in it. Exit that shell to return the worktree to the pool. Its default `~/.treehouse` pool is persisted by the devcontainer volume described above.
-
-### Launching VS Code after configuration
-After completing the host-side configuration above, use the **same shell** in which you set the Git identity variables and `GH_TOKEN`. Move to the repository and launch VS Code so those values are available while the devcontainer is created:
-
-```bash
-cd /path/to/repo
-
-code .
-```
-
-### Starting devcontainer
-Once the [git configuration steps](#configuring-git) are completed, you can create the devcontainer. Follow this simple process:
-
-1. Press `Ctrl + Shift + P` to open VS Code's command palette
-2. Type `Dev Containers: Reopen in Container` and hit Enter
-3. That's it! The environment is now ready to use :)
+This project is licensed under the MIT License. See [LICENSE](./LICENSE) for details.

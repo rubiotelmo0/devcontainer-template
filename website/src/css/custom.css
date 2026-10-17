@@ -1,0 +1,67 @@
+:root {
+  --ifm-color-primary: #086acb;
+  --ifm-color-primary-dark: #075fb7;
+  --ifm-color-primary-darker: #075aad;
+  --ifm-color-primary-darkest: #064a8e;
+  --ifm-color-primary-light: #0975df;
+  --ifm-color-primary-lighter: #097ae9;
+  --ifm-color-primary-lightest: #208af6;
+  --ifm-background-color: #fbfdff;
+  --ifm-font-family-base: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --ifm-heading-color: #102b46;
+  --ifm-navbar-shadow: 0 1px 0 #dbe8f2;
+  --ifm-code-font-size: 90%;
+}
+[data-theme='dark'] {
+  --ifm-color-primary: #59baff;
+  --ifm-color-primary-dark: #37acff;
+  --ifm-color-primary-darker: #26a5ff;
+  --ifm-color-primary-darkest: #008bee;
+  --ifm-color-primary-light: #7bc8ff;
+  --ifm-color-primary-lighter: #8ccfff;
+  --ifm-color-primary-lightest: #bfe4ff;
+  --ifm-background-color: #0c1926;
+  --ifm-background-surface-color: #102334;
+  --ifm-heading-color: #e6f4ff;
+  --ifm-navbar-shadow: 0 1px 0 #294357;
+}
+.navbar__title { letter-spacing: -.025em; }
+.navbar-github-link::before {
+  content: '';
+  display: block;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: currentColor;
+  mask: url('../../static/img/github.svg') center / contain no-repeat;
+}
+
+/* Keep header controls available when the navigation collapses. */
+@media (max-width: 996px) {
+  .navbar__inner {
+    flex-wrap: nowrap;
+  }
+
+  .navbar__toggle {
+    flex-shrink: 0;
+  }
+
+  .navbar__brand {
+    overflow: hidden;
+  }
+
+  .navbar__items .navbar-github-link,
+  .navbar__items .navbar-theme-toggle {
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  .navbar__items .navbar-header-search {
+    position: static;
+    margin-left: 0.5rem;
+  }
+
+  .navbar-sidebar .navbar-theme-toggle,
+  .navbar-sidebar__back {
+    display: none;
+  }
+}

@@ -7,5 +7,3 @@ services:
     env_file:
       - path: .env.workspace
         format: raw
-    volumes:
-      - ..:/workspaces/workspace:cached
