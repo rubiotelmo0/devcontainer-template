@@ -1,3 +1,5 @@
+const versions = require('./versions.json');
+
 module.exports = {
   title: 'Devcontainer Template',
   tagline: 'A workspace for you and your coding agent.',
@@ -14,6 +16,9 @@ module.exports = {
       {
         docs: {
           routeBasePath: '/',
+          versions: Object.fromEntries(
+            ['current', ...versions].map((version) => [version, {badge: false}]),
+          ),
         },
         blog: false,
         pages: false,
@@ -38,6 +43,10 @@ module.exports = {
     navbar: {
       title: 'Devcontainer Template',
       items: [
+        {
+          type: 'docsVersionDropdown',
+          position: 'right',
+        },
         {
           href: 'https://github.com/rubiotelmo0/devcontainer-template',
           position: 'right',

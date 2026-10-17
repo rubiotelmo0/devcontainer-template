@@ -66,9 +66,11 @@ Keep the Docusaurus site and its existing documentation/search tooling. Make sma
 
 Remove the template's GitHub Pages workflow at `.github/workflows/docs.yml` and the **Deploy to GitHub Pages** section in `website/docs/documentation.md`, including its repository settings and release-tag instructions. Preserve unrelated workflows such as `.github/workflows/security.yml`.
 
+Reset the site to unversioned documentation: delete `website/versioned_docs/`, `website/versioned_sidebars/`, and `website/versions.json`. In `website/docusaurus.config.js`, remove the import or `require` of `versions.json`, its variable, the generated docs `versions` configuration, and any other options that depend on the removed versions. Remove navbar items of type `docsVersionDropdown` or `docsVersion` and links to deleted version routes. Serve the retained pages from `website/docs/` at the site's root routes, preserving the repository link and other unrelated navbar controls.
+
 Remove the remaining **template** documentation pages and obsolete category files. On reruns, preserve pages the user has added. Fix navbar/sidebar links, frontmatter pagination, and cross-page links to the surviving routes. Update title, tagline, favicon, repository link, and deployment URL/base path in `website/docusaurus.config.js`; use the new project's confirmed destination, or a local preview configuration if hosting is undecided. Keep Documentation's local preview URLs consistent with that base path. Remove unreferenced template branding assets and the old artwork prompt; retain shared assets still in use. With no icon, remove the old favicon setting as well as the old logo. If no static assets remain, remove the empty static directory tree or set `staticDirectories: []`; leaving empty nested directories can cause the production asset-copy step to fail.
 
-Completion: only the three intended template pages remain, their navigation works, and the site contains the new project's branding without invented features or placeholder sections.
+Completion: only the three intended template pages remain, their navigation works at unversioned routes, version snapshots and version navbar items are absent, and the site contains the new project's branding without invented features or placeholder sections.
 
 ## 5. Clean up the project and validate the website
 

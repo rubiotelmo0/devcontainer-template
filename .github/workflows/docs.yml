@@ -29,8 +29,8 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - name: Verify release tag belongs to main
-        run: git merge-base --is-ancestor HEAD origin/main
+      - name: Verify release tag belongs to master
+        run: git merge-base --is-ancestor HEAD origin/master
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
           node-version: '24'
