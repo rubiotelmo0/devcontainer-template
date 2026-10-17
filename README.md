@@ -1,6 +1,8 @@
 # devcontainer-template
 
 [![License](https://img.shields.io/github/license/rubiotelmo0/devcontainer-template)](./LICENSE)
+[![Security](https://github.com/rubiotelmo0/devcontainer-template/actions/workflows/security.yml/badge.svg)](https://github.com/rubiotelmo0/devcontainer-template/actions/workflows/security.yml)
+[![Documentation](https://github.com/rubiotelmo0/devcontainer-template/actions/workflows/docs.yml/badge.svg)](https://github.com/rubiotelmo0/devcontainer-template/actions/workflows/docs.yml)
 
 <p align="center">
   <img src="./website/static/img/devcontainer-token.png" alt="Devcontainer Template logo" width="340" />
