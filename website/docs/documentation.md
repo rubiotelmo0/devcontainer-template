@@ -41,3 +41,9 @@ npm --prefix website run serve
 Build output is written to `website/build/`. Preview it at [http://localhost:3000/devcontainer-template/](http://localhost:3000/devcontainer-template/).
 
 The navbar search uses a local index generated during the production build, with no external account or API key. The development server previews the search bar but does not return search results. Use the build-and-serve commands to try search, and rebuild after documentation edits to refresh the index.
+
+## Deploy to GitHub Pages
+
+In the repository's **Settings → Pages**, select **GitHub Actions** as the build and deployment source. If the `github-pages` environment restricts deployment branches and tags, allow tags matching `v*` under **Settings → Environments → github-pages**.
+
+The workflow in `.github/workflows/docs.yml` deploys on pushes of release tags matching `v*`, such as `v1.0.0`. It checks that the tagged commit is in `main`'s history, installs the locked dependencies, builds the tagged documentation, and publishes `website/build/` to GitHub Pages. Push the release commit to `main` before pushing its tag. Ordinary branch pushes do not deploy the site.
